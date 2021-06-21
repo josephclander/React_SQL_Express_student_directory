@@ -4,6 +4,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const sequelize = require('./models').sequelize;
+const cors = require('cors');
 
 const userRoutes = require('./routes/userRoutes');
 const courseRoutes = require('./routes/courseRoutes');
@@ -20,6 +21,9 @@ app.use(express.json());
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
+
+// allow all cors requests
+app.use(cors());
 
 // Test the database connection.
 (async () => {
