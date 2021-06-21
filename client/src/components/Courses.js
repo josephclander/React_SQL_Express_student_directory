@@ -12,6 +12,7 @@ const Courses = () => {
       setData({ courses: results });
     }
     fetchData();
+    document.title = "Courses";
   }, []);
 
   return (
