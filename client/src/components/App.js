@@ -1,26 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import Courses from "./Courses";
+import Header from "./Header";
 
 function App() {
-  const [data, setData] = useState({
-    courses: [],
-  });
   useEffect(() => {
-    async function fetchData() {
-      const results = await fetch("http://localhost:5000/api/courses").then(
-        (response) => response.json()
-      );
-      setData({ courses: results });
-    }
-    fetchData();
-  }, []);
+    document.title = "Courses";
+  });
   return (
-    <div className="App">
-      <ul>
-        {data.courses.map((course) => (
-          <li key={course.id}>{course.title}</li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <Header />
+      <Courses />
+    </>
   );
 }
 
