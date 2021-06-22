@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const CourseDetail = () => {
   const course = {
@@ -21,15 +22,18 @@ const CourseDetail = () => {
     <main>
       <div className="actions--bar">
         <div className="wrap">
-          <a className="button" href="update-course.html">
+          <Link
+            className="button"
+            to={{ pathname: `/courses/${course.id}/update` }}
+          >
             Update Course
-          </a>
-          <a className="button" href="delete.html">
+          </Link>
+          <Link className="button" to="delete.html">
             Delete Course
-          </a>
-          <a className="button button-secondary" href="index.html">
+          </Link>
+          <Link className="button button-secondary" to="/">
             Return to List
-          </a>
+          </Link>
         </div>
       </div>
 
