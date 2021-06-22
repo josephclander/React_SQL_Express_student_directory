@@ -43,8 +43,8 @@ const CourseDetail = () => {
               <p>
                 By {course.User.firstName} {course.User.lastName}
               </p>
-              {course.description.split("\n\n").map((item) => (
-                <p>{item}</p>
+              {course.description.split("\n\n").map((item, index) => (
+                <p key={index}>{item}</p>
               ))}
             </div>
             <div>
@@ -53,9 +53,13 @@ const CourseDetail = () => {
 
               <h3 className="course--detail--title">Materials Needed</h3>
               <ul className="course--detail--list">
-                {course.materialsNeeded.split("/n").map((item) => (
-                  <li>{item}</li>
-                ))}
+                {course.materialsNeeded
+                  .replace("\n", "")
+                  .split(/\*\s/g)
+                  .slice(1)
+                  .map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
               </ul>
             </div>
           </div>
