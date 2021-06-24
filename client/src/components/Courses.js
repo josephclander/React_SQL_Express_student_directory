@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { getCourses } from "../Data";
 
 const Courses = () => {
-  const [data, setData] = useState({
-    courses: [],
-  });
+  const [courses, setCourses] = useState([]);
+
   useEffect(() => {
-    async function fetchData() {
-      const results = await fetch("http://localhost:5000/api/courses").then(
-        (response) => response.json()
-      );
-      setData({ courses: results });
-    }
-    fetchData();
+    const fetch = async () => {
+      try {
+        const response = await getCourses();
+        setCourses(response);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetch();
     document.title = "Courses";
   }, []);
 
   return (
     <main>
       <div className="wrap main--grid">
-        {data.courses.map((course) => (
+        {courses.map((course) => (
           <Link
             key={course.id}
             className="course--module course--link"
