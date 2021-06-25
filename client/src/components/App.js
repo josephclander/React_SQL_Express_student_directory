@@ -10,6 +10,12 @@ import UserSignUp from "./UserSignUp";
 import UserSignOut from "./UserSignOut";
 import Header from "./Header";
 
+import withContext from "../Context";
+
+const UserSignUpWithContext = withContext(UserSignUp);
+const UserSignInWithContext = withContext(UserSignIn);
+const UserSignOutWithContext = withContext(UserSignOut);
+
 function App() {
   return (
     <Router>
@@ -20,9 +26,9 @@ function App() {
           <Route path="/courses/create" component={CreateCourse} />
           <Route path="/courses/:id/update" component={UpdateCourse} />
           <Route path="/courses/:id" component={CourseDetail} />
-          <Route path="/signin" component={UserSignIn} />
-          <Route path="/signup" component={UserSignUp} />
-          <Route path="/signout" component={UserSignOut} />
+          <Route path="/signup" component={UserSignUpWithContext} />
+          <Route path="/signin" component={UserSignInWithContext} />
+          <Route path="/signout" component={UserSignOutWithContext} />
         </Switch>
       </>
     </Router>
