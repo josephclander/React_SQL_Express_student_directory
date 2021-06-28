@@ -13,14 +13,20 @@ class UserSignUp extends Component {
   };
 
   render() {
-    const { firstName, lastName, emailAddress, password, confirmPassword } =
-      this.state;
+    const {
+      firstName,
+      lastName,
+      emailAddress,
+      password,
+      confirmPassword,
+      errors,
+    } = this.state;
 
     return (
       <main>
         <div className='form--centered'>
           <h2>Sign Up</h2>
-          <ErrorsDisplay errors={this.state.errors} />
+          <ErrorsDisplay errors={errors} />
           <form onSubmit={this.handleSubmit}>
             <label htmlFor='firstName'>First Name</label>
             <input
