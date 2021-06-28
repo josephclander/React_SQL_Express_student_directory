@@ -64,7 +64,9 @@ class UserSignIn extends Component {
     event.preventDefault();
     const { context } = this.props;
     const { from } = this.props.location.state || {
-      from: { pathname: '/authenticated' },
+      from: { pathname: '/' },
+      // look at this pathname again.
+      // thought needs to be where from but acting as too?!
     };
     const { emailAddress, password } = this.state;
 
@@ -81,7 +83,8 @@ class UserSignIn extends Component {
       })
       .catch((error) => {
         console.error(error);
-        this.props.history.push('/error');
+        this.props.history.push('/');
+        // this.props.history.push('/error');
       });
   };
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import ErrorsDisplay from './ErrorsDisplay';
 
 class UserSignUp extends Component {
   state = {
@@ -7,18 +8,19 @@ class UserSignUp extends Component {
     lastName: '',
     emailAddress: '',
     password: '',
-    confirmedPassword: '',
+    confirmPassword: '',
     errors: [],
   };
 
   render() {
-    const { firstName, lastName, emailAddress, password, confirmedPassword } =
+    const { firstName, lastName, emailAddress, password, confirmPassword } =
       this.state;
 
     return (
       <main>
         <div className='form--centered'>
           <h2>Sign Up</h2>
+          <ErrorsDisplay errors={this.state.errors} />
           <form onSubmit={this.handleSubmit}>
             <label htmlFor='firstName'>First Name</label>
             <input
@@ -57,7 +59,7 @@ class UserSignUp extends Component {
               id='confirmPassword'
               name='confirmPassword'
               type='password'
-              value={confirmedPassword}
+              value={confirmPassword}
               onChange={this.handleChange}
             />
             <button className='button' type='submit'>
@@ -92,7 +94,8 @@ class UserSignUp extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { context } = this.props;
-    const { firstName, lastName, emailAddress, password } = this.state;
+    const { firstName, lastName, emailAddress, password, confirmPassword } =
+      this.state;
 
     // Create user
     const user = {
@@ -109,13 +112,17 @@ class UserSignUp extends Component {
           this.setState({ errors });
         } else {
           context.actions.signIn(emailAddress, password).then(() => {
-            this.props.history.push('/authenticated');
+            // no acceptance criteria on basic happy path so send to home page
+            this.props.history.push('/');
           });
         }
       })
       .catch((err) => {
         console.log(err);
-        this.props.history.push('/error');
+        // no acceptance criteria on this path so send to home page
+        this.props.history.push('/');
+        // keep this for extra credit criteria
+        // this.props.history.push('/error');
       });
   };
 

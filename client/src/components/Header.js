@@ -1,22 +1,34 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({ context }) => {
+  const authUser = context.authenticatedUser;
   return (
     <header>
-      <div className="wrap header--flex">
-        <h1 className="header--logo">
-          <Link to="/">Courses</Link>
+      <div className='wrap header--flex'>
+        <h1 className='header--logo'>
+          <Link to='/'>Courses</Link>
         </h1>
         <nav>
-          <ul className="header--signedout">
-            <li>
-              <Link to="/signup">Sign Up</Link>
-            </li>
-            <li>
-              <Link to="/signin">Sign In</Link>
-            </li>
-          </ul>
+          {authUser ? (
+            <ul className='header--signedin'>
+              <li>
+                Welcome, {authUser.firstName} {authUser.lastName}!
+              </li>
+              <li>
+                <Link to='/signout'>Sign Out</Link>
+              </li>
+            </ul>
+          ) : (
+            <ul className='header--signedout'>
+              <li>
+                <Link to='/signup'>Sign Up</Link>
+              </li>
+              <li>
+                <Link to='/signin'>Sign In</Link>
+              </li>
+            </ul>
+          )}
         </nav>
       </div>
     </header>
