@@ -7,18 +7,20 @@ class UserSignUp extends Component {
     firstName: '',
     lastName: '',
     emailAddress: '',
+    passwordFirst: '',
     password: '',
-    confirmPassword: '',
     errors: [],
   };
+  // 'passwordFirst' & 'password' naming created because
+  // 'password' is a requirement named parameter
 
   render() {
     const {
       firstName,
       lastName,
       emailAddress,
+      passwordFirst,
       password,
-      confirmPassword,
       errors,
     } = this.state;
 
@@ -54,18 +56,18 @@ class UserSignUp extends Component {
             />
             <label htmlFor='password'>Password</label>
             <input
-              id='password'
-              name='password'
+              id='passwordFirst'
+              name='passwordFirst'
               type='password'
-              value={password}
+              value={passwordFirst}
               onChange={this.handleChange}
             />
             <label htmlFor='confirmPassword'>Confirm Password</label>
             <input
-              id='confirmPassword'
-              name='confirmPassword'
+              id='password'
+              name='password'
               type='password'
-              value={confirmPassword}
+              value={password}
               onChange={this.handleChange}
             />
             <button className='button' type='submit'>
@@ -100,7 +102,7 @@ class UserSignUp extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { context } = this.props;
-    const { firstName, lastName, emailAddress, password, confirmPassword } =
+    const { firstName, lastName, emailAddress, passwordFirst, password } =
       this.state;
 
     // Create user
@@ -108,6 +110,7 @@ class UserSignUp extends Component {
       firstName,
       lastName,
       emailAddress,
+      passwordFirst,
       password,
     };
 
