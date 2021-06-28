@@ -1,17 +1,17 @@
 export default class Data {
   api(
     path,
-    method = "GET",
+    method = 'GET',
     body = null,
     requiresAuth = false,
     credentials = null
   ) {
-    const url = "http://localhost:5000/api" + path;
+    const url = 'http://localhost:5000/api' + path;
 
     const options = {
       method,
       headers: {
-        "Content-Type": "application/json; charset=utf-8",
+        'Content-Type': 'application/json; charset=utf-8',
       },
     };
 
@@ -21,16 +21,16 @@ export default class Data {
 
     if (requiresAuth) {
       const encodedCredentials = btoa(
-        `${credentials.username}:${credentials.password}`
+        `${credentials.emailAddress}:${credentials.password}`
       );
-      options.headers["Authorization"] = `Basic ${encodedCredentials}`;
+      options.headers['Authorization'] = `Basic ${encodedCredentials}`;
     }
     return fetch(url, options);
   }
 
-  async getUser(username, password) {
-    const response = await this.api(`/users`, "GET", null, true, {
-      username,
+  async getUser(emailAddress, password) {
+    const response = await this.api(`/users`, 'GET', null, true, {
+      emailAddress,
       password,
     });
     if (response.status === 200) {
@@ -43,7 +43,7 @@ export default class Data {
   }
 
   async createUser(user) {
-    const response = await this.api("/users", "POST", user);
+    const response = await this.api('/users', 'POST', user);
     if (response.status === 201) {
       return [];
     } else if (response.status === 400) {
@@ -56,7 +56,7 @@ export default class Data {
   }
 
   async getCourses() {
-    const response = await this.api("/courses");
+    const response = await this.api('/courses');
     const data = await response.json();
     if (response.status === 200) {
       return data;

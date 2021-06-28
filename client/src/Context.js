@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import Cookies from "js-cookie";
-import Data from "./Data";
+import React, { Component } from 'react';
+import Cookies from 'js-cookie';
+import Data from './Data';
 
 const Context = React.createContext();
 
 export class Provider extends Component {
   state = {
-    authenticatedUser: Cookies.getJSON("authenticatedUser") || null,
+    authenticatedUser: Cookies.getJSON('authenticatedUser') || null,
   };
 
   constructor() {
@@ -28,9 +28,10 @@ export class Provider extends Component {
       <Context.Provider value={value}>{this.props.children}</Context.Provider>
     );
   }
-
-  signIn = async (username, password) => {
-    const user = await this.data.getUser(username, password);
+  // note emailAddress is the 'username'
+  // the acceptance criteria states to use 'emailAddress' as the parameter
+  signIn = async (emailAddress, password) => {
+    const user = await this.data.getUser(emailAddress, password);
     if (user !== null) {
       this.setState(() => {
         return {
@@ -40,14 +41,14 @@ export class Provider extends Component {
       const cookieOptions = {
         expires: 1, // 1 day
       };
-      Cookies.set("authenticatedUser", JSON.stringify(user), { cookieOptions });
+      Cookies.set('authenticatedUser', JSON.stringify(user), { cookieOptions });
     }
     return user;
   };
 
   signOut = () => {
     this.setState({ authenticatedUser: null });
-    Cookies.remove("authenticatedUser");
+    Cookies.remove('authenticatedUser');
   };
 }
 

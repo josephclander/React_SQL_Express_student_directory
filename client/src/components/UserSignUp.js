@@ -1,78 +1,77 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class UserSignUp extends Component {
   state = {
-    firstName: "",
-    lastName: "",
-    username: "",
-    password: "",
-    confirmedPassword: "",
+    firstName: '',
+    lastName: '',
+    emailAddress: '',
+    password: '',
+    confirmedPassword: '',
     errors: [],
   };
 
   render() {
-    const { firstName, lastName, username, password, confirmedPassword } =
+    const { firstName, lastName, emailAddress, password, confirmedPassword } =
       this.state;
 
     return (
       <main>
-        <div className="form--centered">
+        <div className='form--centered'>
           <h2>Sign Up</h2>
           <form onSubmit={this.handleSubmit}>
-            <label htmlFor="firstName">First Name</label>
+            <label htmlFor='firstName'>First Name</label>
             <input
-              id="firstName"
-              name="firstName"
-              type="text"
+              id='firstName'
+              name='firstName'
+              type='text'
               value={firstName}
               onChange={this.handleChange}
             />
-            <label htmlFor="lastName">Last Name</label>
+            <label htmlFor='lastName'>Last Name</label>
             <input
-              id="lastName"
-              name="lastName"
-              type="text"
+              id='lastName'
+              name='lastName'
+              type='text'
               value={lastName}
               onChange={this.handleChange}
             />
-            <label htmlFor="emailAddress">Email Address</label>
+            <label htmlFor='emailAddress'>Email Address</label>
             <input
-              id="emailAddress"
-              name="emailAddress"
-              type="email"
-              value={username}
+              id='emailAddress'
+              name='emailAddress'
+              type='email'
+              value={emailAddress}
               onChange={this.handleChange}
             />
-            <label htmlFor="password">Password</label>
+            <label htmlFor='password'>Password</label>
             <input
-              id="password"
-              name="password"
-              type="password"
+              id='password'
+              name='password'
+              type='password'
               value={password}
               onChange={this.handleChange}
             />
-            <label htmlFor="confirmPassword">Confirm Password</label>
+            <label htmlFor='confirmPassword'>Confirm Password</label>
             <input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
+              id='confirmPassword'
+              name='confirmPassword'
+              type='password'
               value={confirmedPassword}
               onChange={this.handleChange}
             />
-            <button className="button" type="submit">
+            <button className='button' type='submit'>
               Sign Up
             </button>
             <button
-              className="button button-secondary"
-              onClick={this.handleCancel}
-            >
+              className='button button-secondary'
+              onClick={this.handleCancel}>
               Cancel
             </button>
           </form>
           <p>
-            Already have a user account? Click here to{" "}
-            <Link to="signin">sign in</Link>!
+            Already have a user account? Click here to{' '}
+            <Link to='signin'>sign in</Link>!
           </p>
         </div>
       </main>
@@ -93,13 +92,13 @@ class UserSignUp extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { context } = this.props;
-    const { firstName, lastName, username, password } = this.state;
+    const { firstName, lastName, emailAddress, password } = this.state;
 
     // Create user
     const user = {
       firstName,
       lastName,
-      username,
+      emailAddress,
       password,
     };
 
@@ -109,20 +108,20 @@ class UserSignUp extends Component {
         if (errors.length) {
           this.setState({ errors });
         } else {
-          context.actions.signIn(username, password).then(() => {
-            this.props.history.push("/authenticated");
+          context.actions.signIn(emailAddress, password).then(() => {
+            this.props.history.push('/authenticated');
           });
         }
       })
       .catch((err) => {
         console.log(err);
-        this.props.history.push("/error");
+        this.props.history.push('/error');
       });
   };
 
   handleCancel = (event) => {
     event.preventDefault();
-    this.props.history.push("/");
+    this.props.history.push('/');
   };
 }
 
