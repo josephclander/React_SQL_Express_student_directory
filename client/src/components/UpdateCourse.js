@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ErrorsDisplay from './ErrorsDisplay';
-import Data from '../Data';
 
 class UpdateCourse extends Component {
   state = {
@@ -19,17 +18,13 @@ class UpdateCourse extends Component {
     errors: [],
   };
 
-  constructor() {
-    super();
-    this.data = new Data();
-  }
-
   componentDidMount() {
     const courseId = this.props.match.params.id;
-    const { authenticatedUser } = this.props.context;
+    const { context } = this.props;
+    const { authenticatedUser } = context;
     const fetch = async () => {
       try {
-        const response = await this.data.getCourseById(courseId);
+        const response = await context.data.getCourseById(courseId);
         this.setState(() => response);
         // redirect if not the owner and accessed via url
         if (authenticatedUser.id !== this.state.userId) {

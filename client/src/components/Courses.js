@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Data from '../Data';
 
 class Courses extends Component {
   state = {
     courses: [],
   };
 
-  constructor() {
-    super();
-    this.data = new Data();
-  }
-
   componentDidMount() {
     const fetch = async () => {
+      const { context } = this.props;
       try {
-        const response = await this.data.getCourses();
+        const response = await context.data.getCourses();
         this.setState(() => {
           return { courses: response };
         });

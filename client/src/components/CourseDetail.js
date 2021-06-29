@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
-import Data from '../Data';
 
 class CourseDetail extends Component {
   state = {
@@ -20,16 +19,12 @@ class CourseDetail extends Component {
     message: '',
   };
 
-  constructor() {
-    super();
-    this.data = new Data();
-  }
-
   componentDidMount() {
     const courseId = this.props.match.params.id;
+    const { context } = this.props;
     const fetch = async () => {
       try {
-        const response = await this.data.getCourseById(courseId);
+        const response = await context.data.getCourseById(courseId);
         this.setState(response);
         if (response === null) {
           this.props.history.push('/notfound');
