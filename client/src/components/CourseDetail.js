@@ -17,7 +17,7 @@ class CourseDetail extends Component {
       lastName: '',
       emailAddress: '',
     },
-    errors: [],
+    message: '',
   };
 
   constructor() {
@@ -110,10 +110,9 @@ class CourseDetail extends Component {
 
     context.data
       .deleteCourse(id, emailAddress, password)
-      .then((message) => {
-        if (message) {
-          this.setState({ message });
-          console.log(this.state.message);
+      .then((response) => {
+        if (response.message) {
+          this.setState({ message: response.message });
         } else {
           this.props.history.push('/');
         }
