@@ -81,4 +81,16 @@ export default class Data {
       throw new Error();
     }
   }
+
+  async getCourseById(courseId) {
+    const response = await this.api(`/courses/${courseId}`);
+    const data = await response.json();
+    if (response.status === 200) {
+      return data;
+    } else if (response.status === 401) {
+      return null;
+    } else {
+      throw new Error();
+    }
+  }
 }
