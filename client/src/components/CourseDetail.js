@@ -40,20 +40,33 @@ class CourseDetail extends Component {
   }
 
   render() {
-    const { id, title, description, estimatedTime, materialsNeeded, User } =
-      this.state.course;
+    const {
+      id,
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      userId,
+      User,
+    } = this.state.course;
     const { firstName, lastName } = User;
+    const { authenticatedUser } = this.props.context;
+    const isAllowed = authenticatedUser && authenticatedUser.id === userId;
 
     return (
       <main>
         <div className='actions--bar'>
           <div className='wrap'>
-            <Link className='button' to={`/courses/${id}/update`}>
-              Update Course
-            </Link>
-            <Link className='button' to='delete.html'>
-              Delete Course
-            </Link>
+            {isAllowed ? (
+              <Link className='button' to={`/courses/${id}/update`}>
+                Update Course
+              </Link>
+            ) : null}
+            {isAllowed ? (
+              <Link className='button' to='delete.html'>
+                Delete Course
+              </Link>
+            ) : null}
             <Link className='button button-secondary' to='/'>
               Return to List
             </Link>
