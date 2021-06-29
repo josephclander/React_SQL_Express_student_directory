@@ -72,10 +72,10 @@ export default class Data {
       emailAddress,
       password,
     });
-    const data = await response.json();
     if (response.status === 201) {
       return [];
     } else if (response.status === 400) {
+      const data = await response.json();
       return data.errors;
     } else {
       throw new Error();
@@ -110,6 +110,30 @@ export default class Data {
     } else if (response.status === 400) {
       const data = await response.json();
       return data.errors;
+    } else {
+      throw new Error();
+    }
+  }
+
+  async deleteCourse(courseId, emailAddress, password) {
+    const response = await this.api(
+      `/courses/${courseId}`,
+      'DELETE',
+      null,
+      true,
+      {
+        emailAddress,
+        password,
+      }
+    );
+    if (response.status === 204) {
+      return [];
+    } else if (response.status === 404) {
+      const data = await response.json();
+      return data.message;
+    } else if (response.status === 403) {
+      const data = await response.json();
+      return data.message;
     } else {
       throw new Error();
     }

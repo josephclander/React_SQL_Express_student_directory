@@ -16,6 +16,7 @@ class CourseDetail extends Component {
       lastName: '',
       emailAddress: '',
     },
+    errors: [],
   };
 
   constructor() {
@@ -61,9 +62,9 @@ class CourseDetail extends Component {
               </Link>
             ) : null}
             {isAllowed ? (
-              <Link className='button' to='delete.html'>
+              <button className='button' onClick={this.handleClick}>
                 Delete Course
-              </Link>
+              </button>
             ) : null}
             <Link className='button button-secondary' to='/'>
               Return to List
@@ -108,6 +109,29 @@ class CourseDetail extends Component {
       </main>
     );
   }
+
+  handleClick = (event) => {
+    event.preventDefault();
+    const { context } = this.props;
+    const { id } = this.state;
+    const { emailAddress } = context.authenticatedUser;
+    const { password } = context.authenticatedUser;
+
+    context.data
+      .deleteCourse(id, emailAddress, password)
+      .then((message) => {
+        if (message) {
+          this.setState({ message });
+          console.log(this.state.message);
+        } else {
+          this.props.history.push('/');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        this.props.history.push('/');
+      });
+  };
 }
 
 export default CourseDetail;
