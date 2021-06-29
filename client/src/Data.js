@@ -34,7 +34,8 @@ export default class Data {
       password,
     });
     if (response.status === 200) {
-      return response.json().then((data) => data);
+      const user = await response.json();
+      return user;
     } else if (response.status === 401) {
       return null;
     } else {
@@ -47,9 +48,8 @@ export default class Data {
     if (response.status === 201) {
       return [];
     } else if (response.status === 400) {
-      return response.json().then((data) => {
-        return data.errors;
-      });
+      const data = await response.json();
+      return data.errors;
     } else {
       throw new Error();
     }

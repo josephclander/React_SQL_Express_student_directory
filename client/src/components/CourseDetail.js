@@ -31,8 +31,12 @@ class CourseDetail extends Component {
       try {
         const response = await this.data.getCourseById(courseId);
         this.setState(response);
+        if (response === null) {
+          this.props.history.push('/notfound');
+        }
       } catch (err) {
         console.error(err);
+        this.props.history.push('/error');
       }
     };
     fetch();
@@ -112,14 +116,17 @@ class CourseDetail extends Component {
       .deleteCourse(id, emailAddress, password)
       .then((response) => {
         if (response.message) {
-          this.setState({ message: response.message });
+          // we shouldn't see these error messages as there isn't the functionality to reach them
+          this.setState(() => {
+            return { message: response.message };
+          });
         } else {
           this.props.history.push('/');
         }
       })
       .catch((err) => {
         console.log(err);
-        this.props.history.push('/');
+        this.props.history.push('/error');
       });
   };
 }

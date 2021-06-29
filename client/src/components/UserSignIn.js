@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import ErrorsDisplay from './ErrorsDisplay';
 
 class UserSignIn extends Component {
   state = {
     emailAddress: '',
     password: '',
+    errors: [],
   };
 
+  componentDidMount() {
+    document.title = `User Sign In`;
+  }
+
   render() {
-    const { emailAddress, password } = this.state;
+    const { emailAddress, password, errors } = this.state;
 
     return (
       <main>
         <div className='form--centered'>
           <h2>Sign In</h2>
+          <ErrorsDisplay errors={errors} />
           <form onSubmit={this.handleSubmit}>
             <label htmlFor='emailAddress'>Email Address</label>
             <input
@@ -65,8 +72,7 @@ class UserSignIn extends Component {
     const { context } = this.props;
     const { from } = this.props.location.state || {
       from: { pathname: '/' },
-      // look at this pathname again.
-      // thought needs to be where from but acting as too?!
+      // no acceptance criteria for default path so I have chosen the home page
     };
     const { emailAddress, password } = this.state;
 
@@ -83,8 +89,7 @@ class UserSignIn extends Component {
       })
       .catch((error) => {
         console.error(error);
-        this.props.history.push('/');
-        // this.props.history.push('/error');
+        this.props.history.push('/error');
       });
   };
 

@@ -114,14 +114,16 @@ class CreateCourse extends Component {
       .createCourse(course, emailAddress, password)
       .then((errors) => {
         if (errors.length) {
-          this.setState({ errors });
+          this.setState(() => {
+            return { errors };
+          });
         } else {
           this.props.history.push('/');
         }
       })
       .catch((err) => {
         console.log(err);
-        this.props.history.push('/');
+        this.props.history.push('/error');
       });
   };
 

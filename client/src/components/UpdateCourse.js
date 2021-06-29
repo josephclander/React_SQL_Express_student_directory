@@ -26,12 +26,21 @@ class UpdateCourse extends Component {
 
   componentDidMount() {
     const courseId = this.props.match.params.id;
+    const { authenticatedUser } = this.props.context;
     const fetch = async () => {
       try {
         const response = await this.data.getCourseById(courseId);
-        this.setState(response);
+        this.setState(() => response);
+        // redirect if not the owner and accessed via url
+        if (authenticatedUser.id !== this.state.userId) {
+          this.props.history.push('/forbidden');
+        }
+        if (response === null) {
+          this.props.history.push('/notfound');
+        }
       } catch (err) {
         console.error(err);
+        this.props.history.push('/error');
       }
     };
     fetch();
@@ -51,7 +60,7 @@ class UpdateCourse extends Component {
           <form onSubmit={this.handleSubmit}>
             <div className='main--flex'>
               <div>
-                <label htmlFor='courseTitle'>Course Title</label>
+                <label htmlFor='Title'>Course Title</label>
                 <input
                   id='title'
                   name='title'
@@ -139,14 +148,16 @@ class UpdateCourse extends Component {
       .updateCourse(course, emailAddress, password)
       .then((errors) => {
         if (errors.length) {
-          this.setState({ errors });
+          this.setState(() => {
+            return { errors };
+          });
         } else {
           this.props.history.push('/');
         }
       })
       .catch((err) => {
         console.log(err);
-        this.props.history.push('/');
+        this.props.history.push('/error');
       });
   };
 

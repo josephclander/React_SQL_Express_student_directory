@@ -9,6 +9,9 @@ import UserSignIn from './UserSignIn';
 import UserSignUp from './UserSignUp';
 import UserSignOut from './UserSignOut';
 import Header from './Header';
+import NotFound from './NotFound';
+import Forbidden from './Forbidden';
+import UnhandledError from './UnhandledError';
 
 import withContext from '../Context';
 import PrivateRoute from '../PrivateRoute';
@@ -17,6 +20,7 @@ const HeaderWithContext = withContext(Header);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
+const CoursesWithContext = withContext(Courses);
 const CreateCourseWithContext = withContext(CreateCourse);
 const CourseDetailWithContext = withContext(CourseDetail);
 const UpdateCourseWithContext = withContext(UpdateCourse);
@@ -27,7 +31,7 @@ function App() {
       <>
         <HeaderWithContext />
         <Switch>
-          <Route exact path='/' component={Courses} />
+          <Route exact path='/' component={CoursesWithContext} />
           <PrivateRoute
             path='/courses/create'
             component={CreateCourseWithContext}
@@ -40,6 +44,10 @@ function App() {
           <Route path='/signup' component={UserSignUpWithContext} />
           <Route path='/signin' component={UserSignInWithContext} />
           <Route path='/signout' component={UserSignOutWithContext} />
+          <Route path='/forbidden' component={Forbidden} />
+          <Route path='/error' component={UnhandledError} />
+          <Route path='/notfound' component={NotFound} />
+          <Route component={NotFound} />
         </Switch>
       </>
     </Router>

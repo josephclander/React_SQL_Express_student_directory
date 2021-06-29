@@ -14,6 +14,10 @@ class UserSignUp extends Component {
   // 'passwordFirst' & 'password' naming created because
   // 'password' is a requirement named parameter
 
+  componentDidMount() {
+    document.title = `User Sign Up`;
+  }
+
   render() {
     const {
       firstName,
@@ -118,20 +122,19 @@ class UserSignUp extends Component {
       .createUser(user)
       .then((errors) => {
         if (errors.length) {
-          this.setState({ errors });
+          this.setState(() => {
+            return { errors };
+          });
         } else {
           context.actions.signIn(emailAddress, password).then(() => {
-            // no acceptance criteria on basic happy path so send to home page
+            // no acceptance criteria on basic happy path so send to home page as a default
             this.props.history.push('/');
           });
         }
       })
       .catch((err) => {
         console.log(err);
-        // no acceptance criteria on this path so send to home page
-        this.props.history.push('/');
-        // keep this for extra credit criteria
-        // this.props.history.push('/error');
+        this.props.history.push('/error');
       });
   };
 
