@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import Data from '../Data';
 
 class CourseDetail extends Component {
@@ -82,11 +83,7 @@ class CourseDetail extends Component {
                 <p>
                   By {firstName} {lastName}
                 </p>
-                {description
-                  ? description
-                      .split('\n\n')
-                      .map((item, index) => <p key={index}>{item}</p>)
-                  : null}
+                <ReactMarkdown>{description}</ReactMarkdown>
               </div>
               <div>
                 <h3 className='course--detail--title'>Estimated Time</h3>
@@ -94,13 +91,7 @@ class CourseDetail extends Component {
 
                 <h3 className='course--detail--title'>Materials Needed</h3>
                 <ul className='course--detail--list'>
-                  {materialsNeeded
-                    ? materialsNeeded
-                        .replace('\n', '')
-                        .split(/\*\s/g)
-                        .slice(1)
-                        .map((item, index) => <li key={index}>{item}</li>)
-                    : null}
+                  <ReactMarkdown>{materialsNeeded}</ReactMarkdown>
                 </ul>
               </div>
             </div>
