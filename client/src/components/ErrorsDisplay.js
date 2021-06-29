@@ -1,5 +1,10 @@
 import React from 'react';
 
+/**
+ * function to display errors
+ * @param {array} errors
+ * @returns {component}
+ */
 const ErrorsDisplay = ({ errors }) => {
   let errorsDisplay = null;
 

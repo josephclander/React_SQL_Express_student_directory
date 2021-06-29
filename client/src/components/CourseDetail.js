@@ -16,16 +16,22 @@ class CourseDetail extends Component {
       lastName: '',
       emailAddress: '',
     },
+    // note API gives messages not errors
     message: '',
   };
 
+  /**
+   * Load given course data on load
+   */
   componentDidMount() {
     const courseId = this.props.match.params.id;
     const { context } = this.props;
     const fetch = async () => {
       try {
         const response = await context.data.getCourseById(courseId);
-        this.setState(response);
+        this.setState(() => {
+          return response;
+        });
         if (response === null) {
           this.props.history.push('/notfound');
         }
@@ -50,6 +56,8 @@ class CourseDetail extends Component {
     } = this.state;
     const { firstName, lastName } = User;
     const { authenticatedUser } = this.props.context;
+    // check the user is authenticated and the course belongs to them
+    // They can only access `update` or `delete` if allowed
     const isAllowed = authenticatedUser && authenticatedUser.id === userId;
 
     return (
@@ -102,10 +110,11 @@ class CourseDetail extends Component {
 
   handleClick = (event) => {
     event.preventDefault();
-    const { context } = this.props;
+    // get id of the course
     const { id } = this.state;
-    const { emailAddress } = context.authenticatedUser;
-    const { password } = context.authenticatedUser;
+    const { context } = this.props;
+    // User info required for authentication header
+    const { emailAddress, password } = context.authenticatedUser;
 
     context.data
       .deleteCourse(id, emailAddress, password)
@@ -116,11 +125,12 @@ class CourseDetail extends Component {
             return { message: response.message };
           });
         } else {
+          // return to the homepage after successful delete
           this.props.history.push('/');
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         this.props.history.push('/error');
       });
   };

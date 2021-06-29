@@ -6,6 +6,9 @@ class Courses extends Component {
     courses: [],
   };
 
+  /**
+   * load all courses on load
+   */
   componentDidMount() {
     const fetch = async () => {
       const { context } = this.props;

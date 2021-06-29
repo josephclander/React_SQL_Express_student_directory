@@ -18,6 +18,9 @@ class UpdateCourse extends Component {
     errors: [],
   };
 
+  /**
+   * get the course by Id
+   */
   componentDidMount() {
     const courseId = this.props.match.params.id;
     const { context } = this.props;
@@ -122,14 +125,15 @@ class UpdateCourse extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { context } = this.props;
+    // get information for course update
     const { id, title, description, estimatedTime, materialsNeeded } =
       this.state;
+    // User info required for authentication header
+    const { context } = this.props;
     const userId = context.authenticatedUser.id;
-    const { emailAddress } = context.authenticatedUser;
-    const { password } = context.authenticatedUser;
+    const { emailAddress, password } = context.authenticatedUser;
 
-    // Create course to update
+    // Create course object to update
     const course = {
       id,
       title,
@@ -151,7 +155,7 @@ class UpdateCourse extends Component {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         this.props.history.push('/error');
       });
   };

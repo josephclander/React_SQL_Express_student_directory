@@ -14,8 +14,10 @@ import Forbidden from './Forbidden';
 import UnhandledError from './UnhandledError';
 
 import withContext from '../Context';
+// these paths will require authentication
 import PrivateRoute from '../PrivateRoute';
 
+// Add access to context to the following routes
 const HeaderWithContext = withContext(Header);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);

@@ -70,6 +70,7 @@ class UserSignIn extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { context } = this.props;
+    // get info of the page the user was redirected from
     const { from } = this.props.location.state || {
       from: { pathname: '/' },
       // no acceptance criteria for default path so I have chosen the home page

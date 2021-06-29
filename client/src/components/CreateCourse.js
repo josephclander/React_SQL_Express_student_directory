@@ -18,6 +18,7 @@ class CreateCourse extends Component {
     const { title, description, estimatedTime, materialsNeeded, errors } =
       this.state;
     const { context } = this.props;
+    // get information of for the current authenticated user
     const user = context.authenticatedUser;
 
     return (
@@ -95,11 +96,12 @@ class CreateCourse extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { context } = this.props;
+    // information entered for the course
     const { title, description, estimatedTime, materialsNeeded } = this.state;
+    // User info required for authentication header
+    const { context } = this.props;
     const userId = context.authenticatedUser.id;
-    const { emailAddress } = context.authenticatedUser;
-    const { password } = context.authenticatedUser;
+    const { emailAddress, password } = context.authenticatedUser;
 
     // Create course
     const course = {
@@ -122,7 +124,7 @@ class CreateCourse extends Component {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         this.props.history.push('/error');
       });
   };

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Header = ({ context }) => {
+  // use authUser to determine access to sign in or sign out buttons
   const authUser = context.authenticatedUser;
   return (
     <header>

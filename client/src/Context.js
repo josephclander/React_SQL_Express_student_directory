@@ -5,10 +5,12 @@ import Data from './Data';
 const Context = React.createContext();
 
 export class Provider extends Component {
+  // if an authenticated user exists, persist via a cookie
   state = {
     authenticatedUser: Cookies.getJSON('authenticatedUser') || null,
   };
 
+  // import the helper functions for interacting with user and courses routes
   constructor() {
     super();
     this.data = new Data();
@@ -16,6 +18,7 @@ export class Provider extends Component {
 
   render() {
     const { authenticatedUser } = this.state;
+    // provide this information to all components that receive context
     const value = {
       authenticatedUser,
       data: this.data,
@@ -33,12 +36,14 @@ export class Provider extends Component {
   signIn = async (emailAddress, password) => {
     const user = await this.data.getUser(emailAddress, password);
     if (user !== null) {
+      // add the user password to the auth user object on sign in
       user.password = password;
       this.setState(() => {
         return {
           authenticatedUser: user,
         };
       });
+      // create a cookie for the user to remain signed in for 1 day
       Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 });
     }
     return user;
