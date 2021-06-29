@@ -4,19 +4,17 @@ import Data from '../Data';
 
 class CourseDetail extends Component {
   state = {
-    course: {
+    id: 0,
+    title: '',
+    description: '',
+    estimatedTime: '',
+    materialsNeeded: '',
+    userId: 0,
+    User: {
       id: 0,
-      title: '',
-      description: '',
-      estimatedTime: '',
-      materialsNeeded: '',
-      userId: 0,
-      User: {
-        id: 0,
-        firstName: '',
-        lastName: '',
-        emailAddress: '',
-      },
+      firstName: '',
+      lastName: '',
+      emailAddress: '',
     },
   };
 
@@ -30,7 +28,7 @@ class CourseDetail extends Component {
     const fetch = async () => {
       try {
         const response = await this.data.getCourseById(courseId);
-        this.setState({ course: response });
+        this.setState(response);
       } catch (err) {
         console.error(err);
       }
@@ -48,7 +46,7 @@ class CourseDetail extends Component {
       materialsNeeded,
       userId,
       User,
-    } = this.state.course;
+    } = this.state;
     const { firstName, lastName } = User;
     const { authenticatedUser } = this.props.context;
     const isAllowed = authenticatedUser && authenticatedUser.id === userId;
