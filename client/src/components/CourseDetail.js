@@ -16,8 +16,6 @@ class CourseDetail extends Component {
       lastName: '',
       emailAddress: '',
     },
-    // note API gives messages not errors
-    message: '',
   };
 
   /**
