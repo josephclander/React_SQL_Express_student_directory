@@ -162,7 +162,8 @@ class UpdateCourse extends Component {
 
   handleCancel = (event) => {
     event.preventDefault();
-    this.props.history.push('/');
+    const courseId = this.props.match.params.id;
+    this.props.history.push(`/courses/${courseId}`);
   };
 }
 
