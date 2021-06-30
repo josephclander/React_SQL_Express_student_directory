@@ -65,14 +65,14 @@ class CourseDetail extends Component {
         <div className='actions--bar'>
           <div className='wrap'>
             {isAllowed ? (
-              <Link className='button' to={`/courses/${id}/update`}>
-                Update Course
-              </Link>
-            ) : null}
-            {isAllowed ? (
-              <button className='button' onClick={this.handleClick}>
-                Delete Course
-              </button>
+              <>
+                <Link className='button' to={`/courses/${id}/update`}>
+                  Update Course
+                </Link>
+                <button className='button' onClick={this.handleClick}>
+                  Delete Course
+                </button>
+              </>
             ) : null}
             <Link className='button button-secondary' to='/'>
               Return to List
