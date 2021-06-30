@@ -57,11 +57,9 @@ export default class Data {
 
   async getCourses() {
     const response = await this.api('/courses');
-    const data = await response.json();
     if (response.status === 200) {
+      const data = await response.json();
       return data;
-    } else if (response.status === 401) {
-      return null;
     } else {
       throw new Error();
     }
@@ -84,10 +82,10 @@ export default class Data {
 
   async getCourseById(courseId) {
     const response = await this.api(`/courses/${courseId}`);
-    const data = await response.json();
     if (response.status === 200) {
+      const data = await response.json();
       return data;
-    } else if (response.status === 401) {
+    } else if (response.status === 404) {
       return null;
     } else {
       throw new Error();
@@ -129,6 +127,7 @@ export default class Data {
     if (response.status === 204) {
       return [];
     } else if (response.status === 404) {
+      // are these redundant due to auth header?
       const data = await response.json();
       return data.message;
     } else if (response.status === 403) {

@@ -22,10 +22,9 @@ router.get(
 // A /api/courses/:id GET route that will return the corresponding course along with the User that owns that course and a 200 HTTP status code.
 router.get(
   '/:id',
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req, res, next) => {
     const id = req.params.id;
-    const course = await Course.findOne({
-      where: { id },
+    const course = await Course.findByPk(id, {
       attributes: { exclude: ['createdAt', 'updatedAt'] },
       include: {
         model: User,
@@ -35,9 +34,9 @@ router.get(
     if (course) {
       res.json(course);
     } else {
-      res
-        .status(404)
-        .res.json({ message: `Course ${req.params.id} not found.` });
+      const err = new Error(`Course ${id} not found.`);
+      err.status = 404;
+      next(err);
     }
   })
 );
@@ -46,7 +45,7 @@ router.get(
 router.post(
   '/',
   authenticateUser,
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req, res, next) => {
     try {
       const newCourse = await Course.create(req.body);
       res.location(`/api/courses/${newCourse.id}`).status(201).end();
@@ -55,7 +54,7 @@ router.post(
         const errors = error.errors.map((err) => err.message);
         res.status(400).json({ errors });
       } else {
-        throw error;
+        next(error);
       }
     }
   })
@@ -65,8 +64,10 @@ router.post(
 router.put(
   '/:id',
   authenticateUser,
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req, res, next) => {
     const course = await Course.findByPk(req.params.id);
+    // stipulation added to client side that cannot see option to update unless the owner of the course
+    // this technically means 403 and 404 won't ever fire
     if (!course) {
       res.status(404).json({ message: `Course ${req.params.id} not found.` });
     } else if (course.userId !== req.currentUser.id) {
@@ -82,7 +83,7 @@ router.put(
           const errors = error.errors.map((err) => err.message);
           res.status(400).json({ errors });
         } else {
-          throw error;
+          next(error);
         }
       }
     }
@@ -95,6 +96,8 @@ router.delete(
   authenticateUser,
   asyncHandler(async (req, res) => {
     const course = await Course.findByPk(req.params.id);
+    // stipulation added to client side that cannot see option to update unless the owner of the course
+    // this technically means 403 and 404 won't ever fire
     if (!course) {
       res.status(404).json({ message: `Course ${req.params.id} not found.` });
     } else if (course.userId !== req.currentUser.id) {
